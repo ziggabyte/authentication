@@ -1,13 +1,14 @@
 import lombok.AllArgsConstructor;
 
+import java.util.Map;
+
 @AllArgsConstructor
 public class LoginService {
-    private final String username;
-    private final String password;
+    private final Map<String, String> users;
 
     public boolean login(String username, String password) {
-        if (this.username.equals(username)) {
-            return this.password.equals(password);
+        if (users.containsKey(username)) {
+            return users.get(username).equals(password);
         }
         return false;
     }

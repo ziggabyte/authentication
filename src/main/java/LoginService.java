@@ -6,11 +6,17 @@ import java.util.Map;
 public class LoginService {
     private final Map<String, User> users;
 
-    public boolean login(String username, String password) {
+    public Token login(String username, String password) throws LoginFailureException {
         if (users.containsKey(username)) {
             User user = users.get(username);
-            return PasswordUtils.verifyPassword(password, user.getPassword(), user.getSalt());
+            if (PasswordUtils.verifyPassword(password, user.getPassword(), user.getSalt())) {
+                user.setToken(TokenFactory.makeToken());
+                return user.getToken();
+            } else {
+                throw new LoginFailureException("The password is incorrect");
+            }
+        } else {
+            throw new LoginFailureException("The user does not exist");
         }
-        return false;
     }
 }

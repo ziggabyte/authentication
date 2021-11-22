@@ -9,14 +9,14 @@ import java.util.Map;
 
 public class LoginServiceTest {
     LoginService loginService;
-    Map<String, String> mockUsers;
+    Map<String, User> mockUsers;
 
     @BeforeEach
     public void setup() {
         mockUsers = new HashMap<>();
-        mockUsers.put("anna", "losen");
-        mockUsers.put("berit", "123456");
-        mockUsers.put("kalle", "password");
+        mockUsers.put("anna", new User("anna","losen"));
+        mockUsers.put("berit", new User("berit", "123456"));
+        mockUsers.put("kalle", new User("kalle", "password"));
         loginService = new LoginService(mockUsers);
     }
 

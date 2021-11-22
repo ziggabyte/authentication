@@ -8,6 +8,7 @@ public class User {
     private String username;
     private String password;
     private String salt;
+    private Token token;
 
     public User(String username, String password) {
         this.username = username;

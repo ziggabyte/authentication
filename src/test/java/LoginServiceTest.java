@@ -1,11 +1,11 @@
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginServiceTest {
     LoginService loginService;
@@ -21,12 +21,20 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void testLoginSuccess() {
-        assertTrue(loginService.login("anna", "losen"));
+    public void testLoginSuccessReturnsToken() throws LoginFailureException {
+        Token expectedToken = TokenFactory.makeToken();
+        assertEquals(expectedToken, loginService.login("anna", "losen") );
     }
 
     @Test
-    public void testLoginFail() {
-        assertFalse(loginService.login("hanna", "lisen"));
+    public void testLoginSuccessSetsUserToken() throws LoginFailureException {
+        Token expectedToken = TokenFactory.makeToken();
+        loginService.login("anna", "losen");
+        assertEquals(expectedToken, mockUsers.get("anna").getToken());
+    }
+
+    @Test
+    public void testLoginFailThrowsException() {
+        assertThrows(LoginFailureException.class, () -> loginService.login("hanna", "lisen"));
     }
 }

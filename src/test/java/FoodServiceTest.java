@@ -1,4 +1,3 @@
-import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +30,7 @@ public class FoodServiceTest {
 
     @Test
     public void testValidTokenFail() {
-        Token invalidToken = new Token("Invalid token");
+        Token invalidToken = new Token("Invalid token", user);
         assertFalse(foodService.validateToken(invalidToken));
     }
 }

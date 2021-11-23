@@ -22,15 +22,15 @@ public class LoginServiceTest {
 
     @Test
     public void testLoginSuccessReturnsToken() throws LoginFailureException {
-        Token expectedToken = TokenFactory.makeToken();
-        assertEquals(expectedToken, loginService.login("anna", "losen") );
+        Token expectedToken = TokenFactory.makeToken(mockUsers.get("anna"));
+        assertEquals(expectedToken.getTokenString(), loginService.login("anna", "losen") );
     }
 
     @Test
     public void testLoginSuccessSetsUserToken() throws LoginFailureException {
-        Token expectedToken = TokenFactory.makeToken();
+        Token expectedToken = TokenFactory.makeToken(mockUsers.get("anna"));
         loginService.login("anna", "losen");
-        assertEquals(expectedToken, mockUsers.get("anna").getToken());
+        assertEquals(expectedToken.getTokenString(), mockUsers.get("anna").getToken().getTokenString());
     }
 
     @Test

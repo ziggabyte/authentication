@@ -34,7 +34,12 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void testLoginFailThrowsException() {
+    public void testLoginUsernameFailThrowsException() {
         assertThrows(LoginFailureException.class, () -> loginService.login("hanna", "lisen"));
+    }
+
+    @Test
+    public void testLoginPasswordFailThrowsException() {
+        assertThrows(LoginFailureException.class, () -> loginService.login("anna", "lisen"));
     }
 }

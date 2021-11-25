@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +33,21 @@ public class FoodServiceTest {
     }
 
     @Test
-    public void testValidTokenFail() {
-        Token invalidToken = new Token("Invalid token", user);
+    public void testInvalidTokenFail() {
+        Token invalidToken = new Token(
+                "Invalid token", user, LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+        user.setToken(invalidToken);
         assertFalse(foodService.validateToken(invalidToken));
+    }
+
+    @Test
+    public void testUserAndTokenMismatchFail() {
+        Token invalidToken1 = new Token(
+                "Invalid token", user, LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+        Token invalidToken2 = new Token(
+                "Another invalid token", user, LocalDateTime.of(LocalDate.now(), LocalTime.now()));
+        user.setToken(invalidToken1);
+        assertFalse(foodService.validateToken(invalidToken2));
     }
 
     @Test

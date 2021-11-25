@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginServiceTest {
     LoginService loginService;
@@ -22,15 +21,14 @@ public class LoginServiceTest {
 
     @Test
     public void testLoginSuccessReturnsToken() throws LoginFailureException {
-        Token expectedToken = TokenFactory.makeToken(mockUsers.get("anna"));
-        assertEquals(expectedToken.getTokenString(), loginService.login("anna", "losen") );
+        assertNotNull(loginService.login("anna", "losen"));
+        assertEquals( 32, loginService.login("anna", "losen").length() );
     }
 
     @Test
     public void testLoginSuccessSetsUserToken() throws LoginFailureException {
-        Token expectedToken = TokenFactory.makeToken(mockUsers.get("anna"));
         loginService.login("anna", "losen");
-        assertEquals(expectedToken.getTokenString(), mockUsers.get("anna").getToken().getTokenString());
+        assertNotNull(mockUsers.get("anna").getToken());
     }
 
     @Test

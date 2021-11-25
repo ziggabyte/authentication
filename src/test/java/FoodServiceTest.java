@@ -6,6 +6,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FoodServiceTest {
     FoodService foodService;
@@ -32,5 +33,14 @@ public class FoodServiceTest {
     public void testValidTokenFail() {
         Token invalidToken = new Token("Invalid token", user);
         assertFalse(foodService.validateToken(invalidToken));
+    }
+
+    @Test
+    public void testUserPermissions() throws LoginFailureException {
+        loginService.login("anna", "losen");
+        mockUsers.get("anna").getPermissions().put(FoodServiceResource.OVEN, FoodServicePermission.READ);
+        FoodServicePermission expectedPermission = foodService.checkPermissions(
+                user.getToken(), FoodServiceResource.OVEN);
+        assertEquals(expectedPermission, FoodServicePermission.READ);
     }
 }
